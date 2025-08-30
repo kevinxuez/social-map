@@ -1,0 +1,17 @@
+﻿# Node / Next
+node_modules
+.dist
+.next
+coverage
+# Env
+.env
+.env.*
+# Python
+__pycache__/
+*.py[cod]
+.python-version
+.cache
+.mypy_cache
+.pytest_cache
+# Docker data
+docker-data

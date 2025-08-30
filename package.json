@@ -1,0 +1,16 @@
+﻿{
+  "name": "social-map",
+  "private": true,
+  "workspaces": ["apps/*", "packages/*"],
+  "scripts": {
+    "dev:fe": "npm --workspace apps/frontend run dev",
+    "dev:be": "npm --workspace apps/backend run dev",
+    "dev": "concurrently -k \"npm:dev:fe\" \"npm:dev:be\"",
+    "lint": "npm -ws run lint",
+    "test": "npm -ws run test",
+    "build": "npm -ws run build"
+  },
+  "devDependencies": {
+    "concurrently": "^9.0.0"
+  }
+}
