@@ -1,5 +1,5 @@
-﻿{
-  "name": "social-map",
+{
+"name": "social-map",
   "private": true,
   "workspaces": ["apps/*", "packages/*"],
   "scripts": {

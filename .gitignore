@@ -4,6 +4,7 @@ node_modules
 .next
 coverage
 # Env
+.venv
 .env
 .env.*
 # Python

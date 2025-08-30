@@ -1,0 +1,13 @@
+{
+  "name": "@social-map/backend",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "powershell -Command \".venv\\Scripts\\Activate.ps1; $env:PYTHONPATH='.'; uvicorn app.main:app --reload --port 8000\"",
+    "build": "echo 'Backend build not yet implemented'",
+    "start": "uvicorn app.main:app --host 0.0.0.0 --port 8000",
+    "lint": "echo 'Backend lint not yet implemented'"
+  },
+  "dependencies": {},
+  "devDependencies": {}
+}
