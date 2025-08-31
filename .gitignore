@@ -16,3 +16,4 @@ __pycache__/
 .pytest_cache
 # Docker data
 docker-data
+.github/copilot-instructions.md

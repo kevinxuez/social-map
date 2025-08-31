@@ -1,4 +1,4 @@
-yourdomain.com {
+socialmappingfun.dedyn.io {
   encode zstd gzip
 
   @api path /api/* /healthz
@@ -10,7 +10,7 @@ yourdomain.com {
     reverse_proxy frontend:3000
   }
 
-  tls you@example.com
+  tls kevinxuestrike@gmail.com
   log {
     output stdout
     format console

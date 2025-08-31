@@ -9,12 +9,12 @@
 
 ## Architecture & Data Flow
 - **Backend** exposes REST API endpoints (see `app/api/routes.py`).
-  - `/entities`, `/graph`, `/map-entities` are key endpoints for entity CRUD, graph data, and map data.
+  - `/entities`, `/graph` are key endpoints for entity CRUD and graph data.
   - CORS configured for frontend dev (`http://localhost:3000`).
   - DB session via `app/db/session.py`; models in `app/models/models.py`.
 - **Frontend** consumes backend via `src/lib/api.ts` (uses `NEXT_PUBLIC_API_BASE` env var).
   - Graph page (`src/app/graph/page.tsx`) visualizes data from `/graph` endpoint using React Force Graph.
-  - Map page (`src/app/map/page.tsx`) visualizes geo-entities from `/map-entities` using Mapbox GL.
+  - (Map page removed; project now focuses solely on graph.)
   - Navigation in `src/components/Nav.tsx`.
 
 ## Developer Workflows
@@ -49,7 +49,7 @@
 - `apps/backend/app/db/session.py`: DB session setup
 - `apps/frontend/src/lib/api.ts`: API client
 - `apps/frontend/src/app/graph/page.tsx`: Graph visualization
-- `apps/frontend/src/app/map/page.tsx`: Map visualization
+<!-- Map visualization removed -->
 - `docker-compose.yml`: Service definitions
 
 ## Example Patterns
