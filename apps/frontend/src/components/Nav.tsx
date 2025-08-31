@@ -8,7 +8,6 @@ export default function Nav() {
     <nav className="p-3 border-b flex gap-4 bg-white/70 backdrop-blur items-center">
       <Link href="/">Home</Link>
       <Link href="/graph">Graph</Link>
-      <Link href="/map">Map</Link>
       <div className="ml-auto flex items-center gap-3 text-sm">
         {isLoading && <span>…</span>}
         {!isLoading && !user && <a href="/auth/login">Login</a>}

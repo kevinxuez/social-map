@@ -23,6 +23,10 @@ app.include_router(telemetry_router)
 
 logger = logging.getLogger("uvicorn.access")
 
+@app.get('/healthz')
+async def healthz():
+	return {'status':'ok'}
+
 @app.middleware("http")
 async def _middleware_chain(request: Request, call_next):
 	start = time.time()

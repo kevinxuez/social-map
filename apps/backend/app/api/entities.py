@@ -45,6 +45,11 @@ async def create_entity(payload: EntityCreate, db: Session = Depends(get_db)):
     groups_in = payload.groups_in
     connected = payload.connected_people
     data = payload.dict(exclude={'groups_in','connected_people'})
+    # Coerce blank strings to None to avoid unique constraint collisions on empty values
+    if data.get('contact_email') == '':
+        data['contact_email'] = None
+    if data.get('contact_phone') == '':
+        data['contact_phone'] = None
     # main group fallback
     if not data.get('main_group_id') and groups_in:
         data['main_group_id'] = groups_in[0]
@@ -78,6 +83,11 @@ async def update_entity(entity_id: UUID, payload: EntityUpdate, db: Session = De
     if not ent:
         raise HTTPException(status_code=404, detail='Not found')
     data = payload.dict(exclude_unset=True)
+    # Coerce blank strings to None
+    if data.get('contact_email') == '':
+        data['contact_email'] = None
+    if data.get('contact_phone') == '':
+        data['contact_phone'] = None
     groups_in = data.pop('groups_in', None)
     connected = data.pop('connected_people', None)
     for k,v in data.items():
