@@ -21,12 +21,25 @@ from app.models.base import Base  # noqa: E402
 from app.models import models     # noqa: F401,E402
 target_metadata = Base.metadata
 
+EXCLUDE_TABLE_PREFIXES = (
+    'spatial_ref_sys', 'tiger', 'topology', 'zip_', 'addr', 'faces', 'place', 'county', 'cousub', 'pagc_',
+)
+
+def include_object(object, name, type_, reflected, compare_to):  # noqa: D401
+    if type_ == 'table':
+        lower = name.lower()
+        for prefix in EXCLUDE_TABLE_PREFIXES:
+            if lower.startswith(prefix):
+                return False
+    return True
+
 def run_migrations_offline() -> None:
     """Run migrations in 'offline' mode."""
     url = config.get_main_option("sqlalchemy.url")
     context.configure(
         url=url,
         target_metadata=target_metadata,
+        include_object=include_object,
         literal_binds=True,
         dialect_opts={"paramstyle": "named"},
     )
@@ -44,17 +57,13 @@ def run_migrations_online() -> None:
 
     with connectable.connect() as connection:
         context.configure(
-            connection=connection, target_metadata=target_metadata
+            connection=connection,
+            target_metadata=target_metadata,
+            include_object=include_object,
         )
 
         with context.begin_transaction():
             context.run_migrations()
-
-if context.is_offline_mode():
-    run_migrations_offline()
-else:
-    run_migrations_online()
-
 
 if context.is_offline_mode():
     run_migrations_offline()
