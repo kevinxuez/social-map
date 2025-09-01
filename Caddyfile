@@ -1,4 +1,4 @@
-socialmappingfun.dedyn.io {
+kevin-xue.com {
   encode zstd gzip
 
   @api path /api/* /healthz
