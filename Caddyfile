@@ -1,5 +1,10 @@
-kevin-xue.com {
+kevin-xue.com, www.kevin-xue.com {
   encode zstd gzip
+
+  @auth path /api/auth/*
+  handle @auth {
+    reverse_proxy frontend:3000
+  }
 
   @api path /api/* /healthz
   handle @api {

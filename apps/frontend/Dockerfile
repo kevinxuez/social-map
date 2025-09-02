@@ -7,6 +7,9 @@ FROM node:20-alpine as builder
 WORKDIR /app
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
+ENV NEXT_TELEMETRY_DISABLED=1
+ARG NEXT_PUBLIC_API_BASE
+ENV NEXT_PUBLIC_API_BASE=${NEXT_PUBLIC_API_BASE}
 # NEXT_PUBLIC_* and AUTH0_* come from env_file at build time
 RUN npm run build
 

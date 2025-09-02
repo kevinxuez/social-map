@@ -3,7 +3,7 @@ import Providers from './providers';
 
 export const metadata = {
   title: 'Social Map',
-  description: 'Network & geo mapper',
+  description: 'Network graph mapper',
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
