@@ -261,7 +261,19 @@ function GraphCanvas() {
   })();
 
   if (!graphData.nodes.length && !graphData.links.length) {
-    return <div className="flex-1"/>;
+    return (
+      <div className="flex flex-col items-center justify-center h-full text-gray-500">
+        <div>No data yet.</div>
+        <div className="mt-2">
+          <button
+            className="px-4 py-2 bg-blue-600 text-white rounded"
+            onClick={() => setMode({ type: 'entity', isEditing: true, isNew: true })}
+          >
+            Add your first node
+          </button>
+        </div>
+      </div>
+    );
   }
   return (
     <>
