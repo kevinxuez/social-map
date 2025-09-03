@@ -1,11 +1,11 @@
-from pydantic import BaseModel, EmailStr
+from pydantic import BaseModel
 from typing import Optional, List
 from uuid import UUID
 
 
 class EntityBase(BaseModel):
     name: str
-    contact_email: Optional[EmailStr] = None
+    contact_email: Optional[str] = None
     contact_phone: Optional[str] = None
     notes: Optional[str] = None
     main_group_id: Optional[UUID] = None
@@ -21,7 +21,7 @@ class EntityCreate(EntityBase):
 
 class EntityUpdate(BaseModel):
     name: Optional[str] = None
-    contact_email: Optional[EmailStr] = None
+    contact_email: Optional[str] = None
     contact_phone: Optional[str] = None
     notes: Optional[str] = None
     main_group_id: Optional[UUID] = None

@@ -14,14 +14,21 @@ from app.core.rate_limit import rate_limit
 app = FastAPI()
 origins = os.getenv('CORS_ORIGINS','').split(',') if os.getenv('CORS_ORIGINS') else ['http://localhost:3000']
 app.add_middleware(CORSMiddleware, allow_origins=origins, allow_credentials=True, allow_methods=['*'], allow_headers=['*'])
-app.include_router(entities_router)
-app.include_router(groups_router)
-app.include_router(edges_router)
-app.include_router(graph_router)
-app.include_router(csv_router)
-app.include_router(telemetry_router)
+API_PREFIX = os.getenv('API_PREFIX', '/api').rstrip('/')
 
-logger = logging.getLogger("uvicorn.access")
+# Mount routers under a consistent API prefix
+app.include_router(entities_router, prefix=API_PREFIX)
+app.include_router(groups_router, prefix=API_PREFIX)
+app.include_router(edges_router, prefix=API_PREFIX)
+app.include_router(graph_router, prefix=API_PREFIX)
+app.include_router(csv_router, prefix=API_PREFIX)
+app.include_router(telemetry_router, prefix=API_PREFIX)
+
+logger = logging.getLogger("app.access")
+
+# Ensure simple format avoiding uvicorn's specialized access log parser
+if not logging.getLogger().handlers:
+	logging.basicConfig(level=logging.INFO, format='%(asctime)s %(levelname)s %(name)s: %(message)s')
 
 @app.get('/healthz')
 async def healthz():
@@ -43,5 +50,5 @@ async def _middleware_chain(request: Request, call_next):
 			raise
 	response = await call_next(request)
 	duration = (time.time()-start)*1000
-	logger.info(f"{request.method} {request.url.path} -> {response.status_code} {duration:.1f}ms")
+	logger.info("%s %s -> %s %.1fms", request.method, request.url.path, response.status_code, duration)
 	return response
