@@ -20,6 +20,8 @@
 | Cache      | Redis |
 | Deployment | Docker Compose + Caddy on AWS EC2 instance |
 
+## Time Spent
+Around 6-7 hours total (yes, unironically) spread out over a few days. Much of the time was spent debugging Docker/Caddy issues on AWS.
 
 ## Deployment Notes
 - Deployed to "kevin-xue.com" on an AWS EC2 instance.
