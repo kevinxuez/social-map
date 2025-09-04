@@ -5,7 +5,7 @@ import { api, GraphResponse, seededColor } from '@/lib/api';
 import { event as telemetry } from '@/lib/telemetry';
 import Nav from '@/components/Nav';
 import { useEffect, useMemo, useRef, useState } from 'react';
-import { withPageAuthRequired, useUser } from '@auth0/nextjs-auth0/client';
+import { withPageAuthRequired } from '@auth0/nextjs-auth0/client';
 import { polygonHull } from 'd3-polygon';
 import { Toolbar } from './Toolbar';
 import { EntityForm } from './EntityForm';
@@ -35,28 +35,10 @@ function deriveStroke(col:string){
   return col;
 }
 
-function useEnsureCurrentUser() {
-  const { user } = useUser();
-  const qc = useQueryClient();
-  useEffect(() => {
-    (async () => {
-      if (!user?.email) {
-        return;
-      }
-      const ents = await api.listEntities({ search: user.email });
-      const exists = ents.find((e:any) => e.contact_email === user.email && e.isCurrentUser);
-      if (!exists) {
-        await api.createEntity({ name: user.name || user.email, contact_email: user.email, is_current_user:true, groups_in:[], connected_people:[] });
-        qc.invalidateQueries({ queryKey:['graph'] });
-      }
-    })();
-  }, [user?.email]);
-}
 
 type Mode = { type: 'entity'|'group'; id?:string; isEditing:boolean; isNew:boolean } | null;
 
 function GraphCanvas() {
-  useEnsureCurrentUser();
   const qc = useQueryClient();
   const { data } = useQuery<GraphResponse>({ queryKey:['graph'], queryFn: api.getGraph, refetchInterval:10000 });
   // stable graphData prevents force simulation pulsing on refresh
@@ -260,21 +242,6 @@ function GraphCanvas() {
     return null;
   })();
 
-  if (!graphData.nodes.length && !graphData.links.length) {
-    return (
-      <div className="flex flex-col items-center justify-center h-full text-gray-500">
-        <div>No data yet.</div>
-        <div className="mt-2">
-          <button
-            className="px-4 py-2 bg-blue-600 text-white rounded"
-            onClick={() => setMode({ type: 'entity', isEditing: true, isNew: true })}
-          >
-            Add your first node
-          </button>
-        </div>
-      </div>
-    );
-  }
   return (
     <>
   <Toolbar onAddEntity={()=> setMode({type:'entity', isEditing:true, isNew:true}) } onAddGroup={()=> setMode({type:'group', isEditing:true, isNew:true}) } legend={groups.map((g:any)=>({id:g.id,name:g.name,color:g.color||seededColor(g.name)}))} />

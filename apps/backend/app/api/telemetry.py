@@ -5,7 +5,7 @@ import time
 router = APIRouter(prefix="/telemetry")
 logger = logging.getLogger("telemetry")
 
-@router.post("/")
+@router.post("")
 async def ingest(event: dict, request: Request):
     # best-effort: log and return 202
     event_type = event.get('type')

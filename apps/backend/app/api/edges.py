@@ -15,7 +15,7 @@ def get_db():
     finally:
         db.close()
 
-@router.post('/')
+@router.post('')
 async def create_edge(payload: dict, db: Session = Depends(get_db)):
     a = UUID(payload['a_id'])
     b = UUID(payload['b_id'])

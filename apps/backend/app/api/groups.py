@@ -15,7 +15,7 @@ def get_db():
     finally:
         db.close()
 
-@router.get('/')
+@router.get('')
 async def list_groups(db: Session = Depends(get_db)):
     groups = db.query(Group).all()
     return [
@@ -28,7 +28,7 @@ async def list_groups(db: Session = Depends(get_db)):
         } for g in groups
     ]
 
-@router.post('/')
+@router.post('')
 async def create_group(payload: dict, db: Session = Depends(get_db)):
     g = Group(
         name=payload['name'],

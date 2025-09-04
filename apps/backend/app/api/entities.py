@@ -17,7 +17,7 @@ def get_db():
     finally:
         db.close()
 
-@router.get('/')
+@router.get('')
 async def list_entities(search: str | None = None, group_id: UUID | None = None, db: Session = Depends(get_db)):
     q = db.query(Entity)
     if search:
@@ -40,7 +40,7 @@ async def list_entities(search: str | None = None, group_id: UUID | None = None,
         } for e in ents
     ]
 
-@router.post('/', response_model=EntityRead)
+@router.post('', response_model=EntityRead)
 async def create_entity(payload: EntityCreate, db: Session = Depends(get_db)):
     groups_in = payload.groups_in
     connected = payload.connected_people

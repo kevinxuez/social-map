@@ -1,33 +1,31 @@
 ﻿# Social Map
 
-Monorepo for a social-network-mapping web app.
+## Overview
+ Users can log in and edit a people-and-groups network graph. Everyone sees and edits the same shared graph (no user-specific data).
 
-Local running:
+## Core Features
+- Auth0 login/logout (Next.js, `@auth0/nextjs-auth0`).
+- Global graph view with pan/zoom, node dragging, and group hulls.
+- Shared graph data model for all users (PostgreSQL + PostGIS).
+- Create, edit, and delete people and edges ("entities").
+- Create group hierarchies; adjusting entity groups when they change memberships.
 
-# Backend (in a new terminal)
-cd C:\Users\kevin\apenn2028\pennsparkred\social-map\apps\backend
-.\.venv\Scripts\Activate.ps1
-uvicorn app.main:app --reload --port 8000
+## Tech Stack
+| Layer      | Tech |
+|------------|------|
+| Frontend   | Next.js , React, TypeScript, Tailwind, React Force Graph |
+| Auth       | Auth0 Service |
+| Backend    | FastAPI, Uvicorn, SQLAlchemy, Alembic |
+| Database   | PostgreSQL + PostGIS image (spatial ready) |
+| Cache      | Redis |
+| Deployment | Docker Compose + Caddy on AWS EC2 instance |
 
-# Frontend (separate terminal)
-cd C:\Users\kevin\apenn2028\pennsparkred\social-map\apps\frontend
-npm run dev
 
-## Auth0 Setup
+## Deployment Notes
+- Deployed to "kevin-xue.com" on an AWS EC2 instance.
+- Email Login/Logout does not check for specific emails/verify, just basic email format.
+- I didn't read the dev doc too deeply so I accidentally bought a domain (free personal website domain ig LOL)
+- I used `docker-compose.prod.yml` to build both services + Caddy.
+- `Caddyfile` handles HTTPS & routing for me.
+- Use separate persistent volumes for Postgres (`pgdata`).
 
-1. Create a Regular Web Application in Auth0.
-2. Callback URL: `http://localhost:3000/auth/callback`
-3. Logout URL: `http://localhost:3000`
-4. Web Origin & CORS Origin: `http://localhost:3000`
-5. Copy `.env.example` to `.env.local` in `apps/frontend` and fill:
-```
-NEXT_PUBLIC_API_BASE=http://localhost:8000
-APP_BASE_URL=http://localhost:3000
-AUTH0_DOMAIN=YOUR_TENANT.us.auth0.com
-AUTH0_CLIENT_ID=...
-AUTH0_CLIENT_SECRET=...
-AUTH0_SECRET=<openssl rand -hex 32>
-```
-6. Restart `npm run dev`.
-
-Login: `/auth/login`  Logout: `/auth/logout`
